@@ -26,6 +26,14 @@ var AllLocations = React.createClass({
     LocationActions.favoriteLocation(location);
   },
 
+  removeFave(ev){
+    var location = LocationStore.getLocation(
+      Number(ev.target.getAttribute('data-id'))
+    );
+
+    LocationActions.unfavoriteLocation(location);
+  },
+
   render() {
     if (this.props.errorMessage) {
       return (
@@ -50,9 +58,19 @@ var AllLocations = React.createClass({
             </button>
           );
 
+          var unfaveStyle = {
+            "background-color": "pink"
+          };
+
+          var unfaveButton = (
+            <button onClick={this.removeFave} data-id={location.id} style={unfaveStyle}>
+              Unfavorite
+            </button>
+          );
+
           return (
             <li key={i}>
-              {location.name} {location.has_favorite ? '<3' : faveButton}
+              {location.name} {location.has_favorite ? unfaveButton : faveButton}
             </li>
           );
         })}

@@ -12,7 +12,8 @@ class LocationStore {
       handleUpdateLocations: LocationActions.UPDATE_LOCATIONS,
       handleFetchLocations: LocationActions.FETCH_LOCATIONS,
       handleLocationsFailed: LocationActions.LOCATIONS_FAILED,
-      setFavorites: LocationActions.FAVORITE_LOCATION
+      setFavorites: LocationActions.FAVORITE_LOCATION,
+      unsetFavorites: LocationActions.UNFAVORITE_LOCATION,
     });
 
     this.exportPublicMethods({
@@ -64,6 +65,31 @@ class LocationStore {
       }
     });
   }
+
+ unsetFavorites(location){
+    this.waitFor(FavoritesStore);
+
+    var favoritedLocations = FavoritesStore.getState().locations;
+
+    this.resetAllFavorites();
+
+    favoritedLocations.forEach((location) => {
+      // find each location in the array
+      for (var i = 0; i < this.locations.length; i += 1) {
+
+        // set has_favorite to true
+        if (this.locations[i].id === location.id) {
+          this.locations[i].has_favorite = true;
+          break;
+        }
+      }
+    });
+
+    for (var i = 0; i < this.locations.length; i += 1){
+      
+    }
+  }
+
 
   getLocation(id) {
     var { locations } = this.getState();
